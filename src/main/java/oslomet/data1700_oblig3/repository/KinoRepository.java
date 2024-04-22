@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import oslomet.data1700_oblig3.pojo.Bestilling;
+import oslomet.data1700_oblig3.pojo.Film;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,18 @@ public class KinoRepository {
         }
     }
 
+    class FilmRowMapper implements RowMapper<Film> {
+
+        @Override
+        public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Film f = new Film();
+            f.setId(rs.getLong("ID"));
+            f.setTittel(rs.getString("TITTEL"));
+
+            return f;
+        }
+    }
+
 
     public int lagreBestilling(Bestilling bestilling) {
         String sql = "INSERT INTO BESTILLING (film, antall, fornavn, " +
@@ -52,6 +65,11 @@ public class KinoRepository {
     public int slettAlleBestillinger() {
         String sql = "DELETE FROM BESTILLING";
         return db.update(sql);
+    }
+
+    public List<Film> hentAlleFilmer() {
+        String sql = "SELECT * FROM FILM";
+        return db.query(sql, new FilmRowMapper());
     }
 
 }
