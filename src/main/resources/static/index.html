@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinobilletter</title>
+  <!-- JQuery through CDN and path to local javascript file -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+  </script>
+  <script src="kinobilletter.js"></script>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+  <!-- bootstap container with padding top -->
+  <div class="container-fluid pt-2">
+
+    <h1>Bestilling av kinobilletter</h1>
+
+    <!-- div with bootstrap class margin-bottom -->
+    <div class="mb-3">
+      <!-- Every input field is in one form -->
+      <form id="kinoForm">
+        <div id="filmListe" class="mb-3">
+          <!-- Dropdown list of movies which is fetched from server -->
+        </div>
+        <!-- Number of tickets -->
+        <div class="mb-3">
+          <label for="antall">Antall</label>
+          <input type="text" id="antall" size="3" maxlength="3">
+        </div>
+        <!-- Personal information -->
+        <div class="mb-2">
+          <table>
+            <tr>
+              <td><label for="fornavn">Fornavn</label></td>
+              <td><input type="text" id="fornavn" required></td>
+            </tr>
+            <tr>
+              <td><label for="etternavn">Etternavn</label></td>
+              <td><input type="text" id="etternavn"></td>
+            </tr>
+            <tr>
+              <td><label for="telefonnr">Telefonnr</label></td>
+              <td><input type="text" id="telefonnr"></td>
+            </tr>
+            <tr>
+              <td><label for="epost">Epost</label></td>
+              <td><input type="text" id="epost"></td>
+            </tr>
+          </table>
+        </div>
+        <!-- Button to send in ticket order registration -->
+        <button type="button" id="kjopKnapp" class="btn btn-primary">Kjøp billett</button>
+      </form>
+    </div>
+
+    <!-- Ticket registration overview and reset button -->
+    <h2 id="billettoversikt">Alle billetter</h2>
+    <button type="button" id="slettKnapp" class="btn btn-danger">Slett alle billettene</button>
+  </div>
+</body>
+</html>
