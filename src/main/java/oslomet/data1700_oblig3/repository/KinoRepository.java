@@ -1,5 +1,7 @@
 package oslomet.data1700_oblig3.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +18,7 @@ public class KinoRepository {
 
     @Autowired
     private JdbcTemplate db;
+    final private Logger logger = LoggerFactory.getLogger(KinoRepository.class);
 
     class BestillingRowMapper implements RowMapper<Bestilling> {
 
@@ -46,30 +49,53 @@ public class KinoRepository {
         }
     }
 
-
     public int lagreBestilling(Bestilling bestilling) {
         String sql = "INSERT INTO BESTILLING (film, antall, fornavn, " +
                 "etternavn, telefon, epost) VALUES (?, ?, ?, ?, ?, ?)";
 
-        return db.update(sql, bestilling.getFilm(), bestilling.getAntall(),
-                bestilling.getFornavn(), bestilling.getEtternavn(),
-                bestilling.getTelefon(), bestilling.getEpost());
+        try {
+            return db.update(sql, bestilling.getFilm(), bestilling.getAntall(),
+                    bestilling.getFornavn(), bestilling.getEtternavn(),
+                    bestilling.getTelefon(), bestilling.getEpost());
+        } catch (Exception e) {
+            logger.error("Feil i lagreBestilling(Bestilling bestilling): " + e);
+            return 0;
+        }
     }
 
     public List<Bestilling> hentAlleBestillinger() {
         String sql = "SELECT * FROM BESTILLING";
-        return db.query(sql, new BestillingRowMapper());
+
+        try {
+            return db.query(sql, new BestillingRowMapper());
+        }
+        catch (Exception e) {
+            logger.error("Feil i hentAlleBestillinger(): " + e);
+            return null;
+        }
     }
 
 
     public int slettAlleBestillinger() {
         String sql = "DELETE FROM BESTILLING";
-        return db.update(sql);
+
+        try {
+            return db.update(sql);
+        } catch (Exception e) {
+            logger.error("Feil i slettAlleBestillinger(): " + e);
+            return 0;
+        }
     }
 
     public List<Film> hentAlleFilmer() {
         String sql = "SELECT * FROM FILM";
-        return db.query(sql, new FilmRowMapper());
+
+        try {
+            return db.query(sql, new FilmRowMapper());
+        } catch (Exception e) {
+            logger.error("Feil i hentAlleFilmer(): " + e);
+            return null;
+        }
     }
 
 }

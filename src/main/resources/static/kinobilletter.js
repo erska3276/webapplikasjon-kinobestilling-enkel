@@ -3,7 +3,7 @@
 $(function() {
     //henter liste over filmer fra server og lager en dropdown-liste
     hentAlleFilmer();
-    let synlig = false;
+    let synligUtskrift = false;
 
     //Event ved trykk på kjøpe knappen som legger til bestilling av
     //kinobillett til bestillings-arrayet, henter objekter for
@@ -77,6 +77,10 @@ $(function() {
         //Send javaobjekt til lagring paa server og skriv ut paa klient
         $.post("/leggTilBestilling", bestilling, function () {
             skrivAlleBestillinger();
+
+        }).fail(function(jqXHR) {
+                const json = $.parseJSON(jqXHR.responseText);
+                skrivUtskrift(json.message);
         });
 
         //Resetter/blanker alle input felt i formen
@@ -88,7 +92,7 @@ $(function() {
     //og utskriften av den i div-elementet "utskrift".
     $("#slettKnapp").click(function() {
         $("#utskrift").remove();
-        synlig = false;
+        synligUtskrift = false;
         //Tømmer bestillings-listen ved tomme arraylist paa server
         $.post("/slettAlleBestillinger", function() {});
     });
@@ -108,14 +112,11 @@ $(function() {
             }
             ut += "</table>";
 
-            //Vis tabell i html-dokumentet ved å sette inn et nytt div element
-            //med tabellen. Om div er opprettet skriver vi tabellen inn i stedet.
-            if (synlig) {
-                $("#utskrift").html(ut);
-            } else {
-                $("#billettoversikt").after("<div id='utskrift'>"+ut+"</div>");
-                synlig = true;
-            }
+            skrivUtskrift(ut);
+
+        }).fail(function(jqXHR) {
+            const json = $.parseJSON(jqXHR.responseText);
+            skrivUtskrift(json.message);
         });
     }
 
@@ -130,6 +131,21 @@ $(function() {
             }
             ut += "</select>";
             $("#filmListe").html(ut);
+
+        }).fail(function(jqXHR) {
+                const json = $.parseJSON(jqXHR.responseText);
+                $("#filmListe").html(json.message);
         });
+    }
+
+    function skrivUtskrift(ut) {
+        //Vis tabell i html-dokumentet ved å sette inn et nytt div element
+        //med tabellen. Om div er opprettet skriver vi tabellen inn i stedet.
+        if (synligUtskrift) {
+            $("#utskrift").html(ut);
+        } else {
+            $("#billettoversikt").after("<div id='utskrift'>"+ut+"</div>");
+            synligUtskrift = true;
+        }
     }
 });
