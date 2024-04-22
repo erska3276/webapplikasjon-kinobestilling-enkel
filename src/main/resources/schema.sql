@@ -1,3 +1,5 @@
+-- Database H2(in memory) and tables represents the model part of
+-- our MVC-architecture:
 CREATE TABLE IF NOT EXISTS Film
 (
     id INTEGER AUTO_INCREMENT NOT NULL,

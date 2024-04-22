@@ -1,3 +1,4 @@
+-- Starts h2:mem database with some rows in Film table:
 INSERT INTO Film (tittel) VALUES ( 'Last Samurai' );
 INSERT INTO Film (tittel) VALUES ( 'The Dark Knight' );
 INSERT INTO Film (tittel) VALUES ( 'The Godfather' );
