@@ -64,7 +64,7 @@ public class KinoRepository {
     }
 
     public List<Bestilling> hentAlleBestillinger() {
-        String sql = "SELECT * FROM BESTILLING";
+        String sql = "SELECT * FROM BESTILLING ORDER BY ETTERNAVN, FORNAVN";
 
         try {
             return db.query(sql, new BestillingRowMapper());
@@ -88,7 +88,7 @@ public class KinoRepository {
     }
 
     public List<Film> hentAlleFilmer() {
-        String sql = "SELECT * FROM FILM";
+        String sql = "SELECT * FROM FILM ORDER BY TITTEL";
 
         try {
             return db.query(sql, new FilmRowMapper());
