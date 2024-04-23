@@ -81,11 +81,25 @@ $(function() {
 
         $("#utskrift").html("");
     });
-    /*
-    * TEST FUNCTION
+
+    /* Event handler, i stedet for event paa statisk-element, saann at vi kan
+    * haandtere events paa dynamiske-elementer. Altsaa innenfor statisk-element
+    * #utskrift, naar det skjer en "click" paa klasse ".endreKnapp"...Alternativ
+    * til javascript med paramenteroverforing onClick="fuction_name"...
     * */
-    $(".container-fluid").on("click", ".endreKnapp", function ()  {
-        alert("Hello Word!");
+    $("#utskrift").on("click", ".endreKnapp", function ()  {
+        /* Finner id-attribut til nermeste table-row som omringer ".endreKnapp"
+        * og parser bestillings id nr */
+        let rowId = $(this).closest("tr").attr("id");
+        let id = rowId.split("-")[1];
+
+
+
+    });
+
+    //Event handler innenfor statisk-element #utskrift paa click ".fjernKnapp"
+    $("#utskrift").on("click", ".fjernKnapp", function ()  {
+        alert("Trykket paa Fjern knapp");
     });
 
     /* Henter liste over alle bestillinger fra DB paa server, oppretter et
@@ -100,12 +114,11 @@ $(function() {
 
             for (let b of bData) {
                 ut += "<tr id='bestilling-" + b.id + "'>";
-                console.log("<tr id='bestilling-" + b.id + "'>");
                 ut += "<td>" + b.film + "</td><td>" + b.antall + "</td>";
                 ut += "<td>" + b.fornavn + "</td><td>" + b.etternavn + "</td>";
                 ut += "<td>" + b.telefon + "</td><td>" + b.epost + "</td>";
                 ut += "<td> <button class='endreKnapp btn btn-primary'>Endre</td>";
-                ut += "<td> <button class='slettKnapp btn btn-danger'>Slett</td>";
+                ut += "<td> <button class='fjernKnapp btn btn-danger'>Slett</td>";
                 ut += "</tr>";
             }
             ut += "</table>";
