@@ -46,6 +46,7 @@ public class KinoController {
         return kinoBestilling;
     }
 
+    //TODO: ENDRE TIL PUTMAPPING?
     @PostMapping("/endreBestilling")
     public void endreBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
         if (rep.endreBestilling(kinoBestilling) == -1) {
@@ -72,6 +73,7 @@ public class KinoController {
 
     }
 
+    //TODO: ENDRE TIL DELETEMAPPING?
     @PostMapping("/slettAlleBestillinger")
     public void slettAlleBestillinger(HttpServletResponse response) throws IOException {
         if (rep.slettAlleBestillinger() == -1) {
