@@ -3,7 +3,6 @@
 * */
 $(function() {
     hentAlleFilmer();
-    let synligUtskrift = false;
 
     //Lager regular expressions for å validere input's fra html-formen #kinoForm
     const filmValidate = /.+/;
@@ -59,7 +58,7 @@ $(function() {
 
         }).fail(function(jqXHR) {
                 const json = $.parseJSON(jqXHR.responseText);
-                skrivUtskrift(json.message);
+                $("#utskrift").html(json.message);
         });
 
         //Resetter/blanker alle input felt i formen
@@ -68,7 +67,7 @@ $(function() {
     });
 
     /* Event. Trykk paa #slettKnapp sletter alle bestillinger i DB paa server
-    * og fjerner #utskrift hos klient. Ved feil skrives feilmelding fra
+    * og fjerner utskrift hos klient. Ved feil skrives feilmelding fra
     * server i stedet.
     * */
     $("#slettKnapp").click(function() {
@@ -77,15 +76,20 @@ $(function() {
 
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
-            skrivUtskrift(json.message);
+            $("#utskrift").html(json.message);
         });
 
-        $("#utskrift").remove();
-        synligUtskrift = false;
+        $("#utskrift").html("");
+    });
+    /*
+    * TEST FUNCTION
+    * */
+    $(".container-fluid").on("click", ".endreKnapp", function ()  {
+        alert("Hello Word!");
     });
 
     /* Henter liste over alle bestillinger fra DB paa server, oppretter et
-    * <table>-element, og skriver ut via "skrivUtskrift". Ved feil skrives
+    * <table>-element, og skriver ut hos klient. Ved feil skrives
     * feilmelding fra server i stedet.
     * */
     function skrivAlleBestillinger() {
@@ -95,20 +99,21 @@ $(function() {
             ut += "<th>Etternavn</th><th>Telefonnr</th><th>Epost</th><th></th><th></th></tr>";
 
             for (let b of bData) {
-                ut += "<tr>";
+                ut += "<tr id='bestilling-" + b.id + "'>";
+                console.log("<tr id='bestilling-" + b.id + "'>");
                 ut += "<td>" + b.film + "</td><td>" + b.antall + "</td>";
                 ut += "<td>" + b.fornavn + "</td><td>" + b.etternavn + "</td>";
                 ut += "<td>" + b.telefon + "</td><td>" + b.epost + "</td>";
-                ut += "<td> <button class='btn btn-primary'>Endre</td>";
-                ut += "<td> <button class='btn btn-danger'>Slett</td>";
+                ut += "<td> <button class='endreKnapp btn btn-primary'>Endre</td>";
+                ut += "<td> <button class='slettKnapp btn btn-danger'>Slett</td>";
                 ut += "</tr>";
             }
             ut += "</table>";
-            skrivUtskrift(ut);
+            $("#utskrift").html(ut);
 
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
-            skrivUtskrift(json.message);
+            $("#utskrift").html(json.message);
         });
     }
 
@@ -132,18 +137,6 @@ $(function() {
                 const json = $.parseJSON(jqXHR.responseText);
                 $("#filmListe").html(json.message);
         });
-    }
-
-    /* Skriver utskrift ved aa sette inn nytt <div>-element etter
-    * #billettoversikt. Skriver i <div>-elementet ellers.
-    */
-    function skrivUtskrift(ut) {
-        if (synligUtskrift) {
-            $("#utskrift").html(ut);
-        } else {
-            $("#billettoversikt").after("<div id='utskrift'>"+ut+"</div>");
-            synligUtskrift = true;
-        }
     }
 
     /* Sjekker om input i et objekt er riktig i forhold til en regular
