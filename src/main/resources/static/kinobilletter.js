@@ -129,7 +129,7 @@ $(function() {
             epost : epost.val()
         };
 
-        //Send javaobjekt til lagring paa server og skriv ut paa klient
+        //Send javaobjekt for endring paa server og skriv ut paa klient
         $.post("/endreBestilling", bestilling, function () {
             skrivAlleBestillinger();
 
