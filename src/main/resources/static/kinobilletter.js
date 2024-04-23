@@ -75,15 +75,27 @@ $(function() {
     $("#slettKnapp").click(function() {
         //Fjerner feilmeldinger til input
         $("span").remove(".validate-error");
-        //Tømmer bestillings-listen ved tomme arraylist paa server
-        $.post("/slettAlleBestillinger", function() {
 
+        //Tømmer bestillings-listen ved tomme Bestilling-Table paa server DB
+        $.ajax({
+            type: "DELETE",
+            url: "/slettAlleBestillinger",
+        }).done(function() {
+            utskrift.html("");
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             utskrift.html(json.message);
         });
 
-        utskrift.html("");
+
+        /*
+        //Tømmer bestillings-listen ved tomme arraylist paa server
+        $.post("/slettAlleBestillinger", function() {
+            utskrift.html("");
+        }).fail(function(jqXHR) {
+            const json = $.parseJSON(jqXHR.responseText);
+            utskrift.html(json.message);
+        }); */
     });
 
     /* Event handler, i stedet for event paa statisk-element, saann at vi kan
