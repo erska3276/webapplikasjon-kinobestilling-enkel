@@ -13,19 +13,21 @@ $(function() {
     //Mange varianter, denne er hentet fra https://regexr.com/3e48o
     const epostValidate = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
+    const film = $("#film");
+    const antall = $("#antall");
+    const fnavn = $("#fornavn");
+    const enavn = $("#etternavn");
+    const tlf = $("#telefonnr");
+    const epost = $("#epost");
+
+    const utskrift = $("#utskrift");
+
     /* Event. Trykk paa #kjopKnapp tar all informasjon fra input-feltene i
     * #kinoForm og prover aa legge inn en ny bestilling til DB paa server, og
     * skriver ut resultatet hos klient. Ved feil skrives feilmelding fra
     * server i stedet.
     * */
     $("#kjopKnapp").click(function() {
-
-        const film = $("#film");
-        const antall = $("#antall");
-        const fnavn = $("#fornavn");
-        const enavn = $("#etternavn");
-        const tlf = $("#telefonnr");
-        const epost =$("#epost");
 
         //Fjerner feilmeldinger slik at vi ikke får duplikater
         $("span").remove(".validate-error");
@@ -58,7 +60,7 @@ $(function() {
 
         }).fail(function(jqXHR) {
                 const json = $.parseJSON(jqXHR.responseText);
-                $("#utskrift").html(json.message);
+                utskrift.html(json.message);
         });
 
         //Resetter/blanker alle input felt i formen
@@ -76,10 +78,10 @@ $(function() {
 
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
-            $("#utskrift").html(json.message);
+            utskrift.html(json.message);
         });
 
-        $("#utskrift").html("");
+        utskrift.html("");
     });
 
     /* Event handler, i stedet for event paa statisk-element, saann at vi kan
@@ -87,18 +89,16 @@ $(function() {
     * #utskrift, naar det skjer en "click" paa klasse ".endreKnapp"...Alternativ
     * til javascript med paramenteroverforing onClick="fuction_name"...
     * */
-    $("#utskrift").on("click", ".endreKnapp", function ()  {
+    utskrift.on("click", ".endreKnapp", function ()  {
         /* Finner id-attribut til nermeste table-row som omringer ".endreKnapp"
         * og parser bestillings id nr */
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
-
-
     });
 
     //Event handler innenfor statisk-element #utskrift paa click ".fjernKnapp"
-    $("#utskrift").on("click", ".fjernKnapp", function ()  {
+    utskrift.on("click", ".fjernKnapp", function ()  {
         alert("Trykket paa Fjern knapp");
     });
 
@@ -122,11 +122,11 @@ $(function() {
                 ut += "</tr>";
             }
             ut += "</table>";
-            $("#utskrift").html(ut);
+            utskrift.html(ut);
 
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
-            $("#utskrift").html(json.message);
+            utskrift.html(json.message);
         });
     }
 
