@@ -86,16 +86,6 @@ $(function() {
             const json = $.parseJSON(jqXHR.responseText);
             utskrift.html(json.message);
         });
-
-
-        /*
-        //Tømmer bestillings-listen ved tomme arraylist paa server
-        $.post("/slettAlleBestillinger", function() {
-            utskrift.html("");
-        }).fail(function(jqXHR) {
-            const json = $.parseJSON(jqXHR.responseText);
-            utskrift.html(json.message);
-        }); */
     });
 
     /* Event handler, i stedet for event paa statisk-element, saann at vi kan
@@ -167,9 +157,11 @@ $(function() {
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
-        $.get("/slettBestilling?id=" + id, function() {
+        $.ajax({
+            type: "DELETE",
+            url: "/slettBestilling?id=" + id,
+        }).done(function() {
             skrivAlleBestillinger();
-
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             utskrift.html(json.message);

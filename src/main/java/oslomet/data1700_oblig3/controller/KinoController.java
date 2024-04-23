@@ -3,10 +3,7 @@ package oslomet.data1700_oblig3.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import oslomet.data1700_oblig3.pojo.Bestilling;
 import oslomet.data1700_oblig3.pojo.Film;
 import oslomet.data1700_oblig3.repository.KinoRepository;
@@ -55,8 +52,7 @@ public class KinoController {
         }
     }
 
-    //TODO: ENDRE TIL DELETEMAPPING?
-    @GetMapping("/slettBestilling")
+    @DeleteMapping("/slettBestilling")
     public void slettBestilling(Long id, HttpServletResponse response) throws IOException {
         if (rep.slettBestilling(id)== -1) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
