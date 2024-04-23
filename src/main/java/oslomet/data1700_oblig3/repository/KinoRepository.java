@@ -59,7 +59,19 @@ public class KinoRepository {
                     bestilling.getTelefon(), bestilling.getEpost());
         } catch (Exception e) {
             logger.error("Feil i lagreBestilling(Bestilling bestilling): " + e);
-            return 0;
+            return -1;
+        }
+    }
+
+
+    public int slettBestilling(Long id) {
+        String sql = "DELETE FROM BESTILLING WHERE ID = ?";
+
+        try {
+            return db.update(sql, id);
+        } catch (Exception e) {
+            logger.error("Feil i slettBestilling(id): " + e);
+            return -1;
         }
     }
 
@@ -75,7 +87,6 @@ public class KinoRepository {
         }
     }
 
-
     public int slettAlleBestillinger() {
         String sql = "DELETE FROM BESTILLING";
 
@@ -83,7 +94,7 @@ public class KinoRepository {
             return db.update(sql);
         } catch (Exception e) {
             logger.error("Feil i slettAlleBestillinger(): " + e);
-            return 0;
+            return -1;
         }
     }
 

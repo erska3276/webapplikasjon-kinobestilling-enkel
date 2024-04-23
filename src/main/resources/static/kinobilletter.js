@@ -13,13 +13,6 @@ $(function() {
     //Mange varianter, denne er hentet fra https://regexr.com/3e48o
     const epostValidate = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-    const film = $("#film");
-    const antall = $("#antall");
-    const fnavn = $("#fornavn");
-    const enavn = $("#etternavn");
-    const tlf = $("#telefonnr");
-    const epost = $("#epost");
-
     const utskrift = $("#utskrift");
 
     /* Event. Trykk paa #kjopKnapp tar all informasjon fra input-feltene i
@@ -28,6 +21,13 @@ $(function() {
     * server i stedet.
     * */
     $("#kjopKnapp").click(function() {
+
+        const film = $("#film");
+        const antall = $("#antall");
+        const fnavn = $("#fornavn");
+        const enavn = $("#etternavn");
+        const tlf = $("#telefonnr");
+        const epost = $("#epost");
 
         //Fjerner feilmeldinger slik at vi ikke får duplikater
         $("span").remove(".validate-error");
@@ -88,6 +88,7 @@ $(function() {
     * haandtere events paa dynamiske-elementer. Altsaa innenfor statisk-element
     * #utskrift, naar det skjer en "click" paa klasse ".endreKnapp"...Alternativ
     * til javascript med paramenteroverforing onClick="fuction_name"...
+    * Endrer tilhorende bestilling i DB paa server.
     * */
     utskrift.on("click", ".endreKnapp", function ()  {
         /* Finner id-attribut til nermeste table-row som omringer ".endreKnapp"
@@ -95,11 +96,24 @@ $(function() {
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
+
+
     });
 
-    //Event handler innenfor statisk-element #utskrift paa click ".fjernKnapp"
+    /* Event handler innenfor statisk-element #utskrift paa click ".fjernKnapp".
+    * Fjerner tilhorende bestilling fra DB paa server
+    * */
     utskrift.on("click", ".fjernKnapp", function ()  {
-        alert("Trykket paa Fjern knapp");
+        let rowId = $(this).closest("tr").attr("id");
+        let id = rowId.split("-")[1];
+
+        $.get("/slettBestilling?id=" + id, function() {
+            skrivAlleBestillinger();
+
+        }).fail(function(jqXHR) {
+            const json = $.parseJSON(jqXHR.responseText);
+            utskrift.html(json.message);
+        });
     });
 
     /* Henter liste over alle bestillinger fra DB paa server, oppretter et

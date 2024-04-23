@@ -32,10 +32,19 @@ public class KinoController {
 
     @PostMapping("/leggTilBestilling")
     public void leggTilBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
-        if (rep.lagreBestilling(kinoBestilling) == 0) {
+        if (rep.lagreBestilling(kinoBestilling) == -1) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
     }
+
+    //TODO: ENDRE TIL DELETEMAPPING?
+    @GetMapping("/slettBestilling")
+    public void slettBestilling(Long id, HttpServletResponse response) throws IOException {
+        if (rep.slettBestilling(id)== -1) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
+        }
+    }
+
 
     @GetMapping("/hentAlleBestillinger")
     public List<Bestilling> hentAlleBestillinger(HttpServletResponse response) throws IOException {
