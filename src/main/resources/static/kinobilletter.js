@@ -198,7 +198,7 @@ $(function() {
     * */
     function hentAlleFilmer() {
         $.get("/hentAlleFilmer", function(fData) {
-            let ut = "<label for='film'>Velg film:</label>";
+            let ut = "<label for='film' class='me-2'>Velg film:</label>";
             ut += "<select id='film'>";
             ut += "<option selected disabled></option>";
 
@@ -220,7 +220,7 @@ $(function() {
     * */
     function inputValidering(objekt, regEx, feilmelding) {
         if (objekt.val() === null || !regEx.test(objekt.val())) {
-            objekt.after("<span class='validate-error'>"+ feilmelding +"</span>");
+            objekt.after("<span class='validate-error ms-2'>"+ feilmelding +"</span>");
             return false;
         }
         return true;
