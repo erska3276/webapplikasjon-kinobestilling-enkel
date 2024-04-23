@@ -96,8 +96,51 @@ $(function() {
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
+        const film = $("#film");
+        const antall = $("#antall");
+        const fnavn = $("#fornavn");
+        const enavn = $("#etternavn");
+        const tlf = $("#telefonnr");
+        const epost = $("#epost");
 
+        //Fjerner feilmeldinger slik at vi ikke får duplikater
+        $("span").remove(".validate-error");
 
+        //Sjekker input felt og avbryter ved feil
+        let input1 = inputValidering(film, filmValidate, "Endring av bestilling: velg film");
+        let input2 = inputValidering(antall, antallValidate, "Endring av bestilling: må være tall");
+        let input3 = inputValidering(fnavn, fnavnValidate, "Endring av bestilling: må skrive noe");
+        let input4 = inputValidering(enavn, enavnValidate, "Endring av bestilling: må skrive noe");
+        let input5 = inputValidering(tlf, tlfValidate, "Endring av bestilling: må være norsk telefon");
+        let input6 = inputValidering(epost, epostValidate, "Endring av bestilling: epost ugyldig");
+
+        if (!input1 || !input2 || !input3 || !input4 || !input5 || !input6) {
+            return false;
+        }
+
+        //Lag bestillings-objekt og legg i liste
+        const bestilling = {
+            id : id,
+            film : film.val(),
+            antall : antall.val(),
+            fornavn : fnavn.val(),
+            etternavn : enavn.val(),
+            telefon : tlf.val(),
+            epost : epost.val()
+        };
+
+        //Send javaobjekt til lagring paa server og skriv ut paa klient
+        $.post("/endreBestilling", bestilling, function () {
+            skrivAlleBestillinger();
+
+        }).fail(function(jqXHR) {
+            const json = $.parseJSON(jqXHR.responseText);
+            utskrift.html(json.message);
+        });
+
+        //Resetter/blanker alle input felt i formen
+        $(":input","#kinoForm").val("");
+        return true;
     });
 
     /* Event handler innenfor statisk-element #utskrift paa click ".fjernKnapp".

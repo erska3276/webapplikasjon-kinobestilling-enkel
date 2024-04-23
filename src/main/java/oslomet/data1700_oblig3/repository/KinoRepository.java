@@ -49,20 +49,43 @@ public class KinoRepository {
         }
     }
 
-    public int lagreBestilling(Bestilling bestilling) {
+    public int lagreBestilling(Bestilling b) {
         String sql = "INSERT INTO BESTILLING (film, antall, fornavn, " +
                 "etternavn, telefon, epost) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
-            return db.update(sql, bestilling.getFilm(), bestilling.getAntall(),
-                    bestilling.getFornavn(), bestilling.getEtternavn(),
-                    bestilling.getTelefon(), bestilling.getEpost());
+            return db.update(sql, b.getFilm(), b.getAntall(), b.getFornavn(),
+                    b.getEtternavn(), b.getTelefon(), b.getEpost());
         } catch (Exception e) {
             logger.error("Feil i lagreBestilling(Bestilling bestilling): " + e);
             return -1;
         }
     }
 
+
+    public Bestilling hentBestilling(Long id) {
+        String sql = "SELECT * FROM BESTILLING WHERE ID = ?";
+
+        try {
+            return db.queryForObject(sql, new BestillingRowMapper(), id);
+        } catch (Exception e) {
+            logger.error("Feil i hentBestilling(Bestilling bestilling): " + e);
+            return null;
+        }
+    }
+
+    public int endreBestilling(Bestilling b) {
+        String sql = "UPDATE BESTILLING SET film=?, antall=?, fornavn=?,"
+                + " etternavn=?, telefon=?, epost=? WHERE id=?";
+
+        try {
+            return db.update(sql, b.getFilm(), b.getAntall(), b.getFornavn(),
+                    b.getEtternavn(), b.getTelefon(), b.getEpost(), b.getId());
+        } catch (Exception e) {
+            logger.error("Feil i endreBestilling(Bestilling b): " + e);
+            return -1;
+        }
+    }
 
     public int slettBestilling(Long id) {
         String sql = "DELETE FROM BESTILLING WHERE ID = ?";

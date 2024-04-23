@@ -37,6 +37,22 @@ public class KinoController {
         }
     }
 
+    @GetMapping("/hentBestilling")
+    public Bestilling hentBestilling(Long id, HttpServletResponse response) throws IOException {
+        Bestilling kinoBestilling = rep.hentBestilling(id);
+        if(kinoBestilling == null) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
+        }
+        return kinoBestilling;
+    }
+
+    @PostMapping("/endreBestilling")
+    public void endreBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
+        if (rep.endreBestilling(kinoBestilling) == -1) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
+        }
+    }
+
     //TODO: ENDRE TIL DELETEMAPPING?
     @GetMapping("/slettBestilling")
     public void slettBestilling(Long id, HttpServletResponse response) throws IOException {
@@ -44,7 +60,6 @@ public class KinoController {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
     }
-
 
     @GetMapping("/hentAlleBestillinger")
     public List<Bestilling> hentAlleBestillinger(HttpServletResponse response) throws IOException {
@@ -59,7 +74,7 @@ public class KinoController {
 
     @PostMapping("/slettAlleBestillinger")
     public void slettAlleBestillinger(HttpServletResponse response) throws IOException {
-        if (rep.slettAlleBestillinger() == 0) {
+        if (rep.slettAlleBestillinger() == -1) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
     }
