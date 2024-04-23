@@ -73,6 +73,8 @@ $(function() {
     * server i stedet.
     * */
     $("#slettKnapp").click(function() {
+        //Fjerner feilmeldinger til input
+        $("span").remove(".validate-error");
         //Tømmer bestillings-listen ved tomme arraylist paa server
         $.post("/slettAlleBestillinger", function() {
 
@@ -107,12 +109,12 @@ $(function() {
         $("span").remove(".validate-error");
 
         //Sjekker input felt og avbryter ved feil
-        let input1 = inputValidering(film, filmValidate, "Endring av bestilling: velg film");
-        let input2 = inputValidering(antall, antallValidate, "Endring av bestilling: må være tall");
-        let input3 = inputValidering(fnavn, fnavnValidate, "Endring av bestilling: må skrive noe");
-        let input4 = inputValidering(enavn, enavnValidate, "Endring av bestilling: må skrive noe");
-        let input5 = inputValidering(tlf, tlfValidate, "Endring av bestilling: må være norsk telefon");
-        let input6 = inputValidering(epost, epostValidate, "Endring av bestilling: epost ugyldig");
+        let input1 = inputValidering(film, filmValidate, "Endre : velg film");
+        let input2 = inputValidering(antall, antallValidate, "Endre : må være tall");
+        let input3 = inputValidering(fnavn, fnavnValidate, "Endre : må skrive noe");
+        let input4 = inputValidering(enavn, enavnValidate, "Endre : må skrive noe");
+        let input5 = inputValidering(tlf, tlfValidate, "Endre : må være norsk telefon");
+        let input6 = inputValidering(epost, epostValidate, "Endre : epost ugyldig");
 
         if (!input1 || !input2 || !input3 || !input4 || !input5 || !input6) {
             return false;
@@ -147,6 +149,9 @@ $(function() {
     * Fjerner tilhorende bestilling fra DB paa server
     * */
     utskrift.on("click", ".fjernKnapp", function ()  {
+        //Fjerner feilmeldinger til input
+        $("span").remove(".validate-error");
+
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
