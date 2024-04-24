@@ -24,6 +24,29 @@ public class KinoController {
     @Autowired
     KinoRepository rep;
 
+    //Servervalidering av input til Bestilling-objekt
+    private boolean validerBestilling(Bestilling b) {
+        String filmValidate = ".+";
+        String antallValidate = "^\\d{1,3}$";
+        String fnavnValidate = ".+";
+        String enavnValidate = ".+";
+        String tlfValidate = "^(\\+47)?\\d{8}$";
+        //Mange varianter, denne er hentet fra https://regexr.com/3e48o
+        String epostValidate = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        boolean test1;
+        if (b.getFilm() == null) test1 = false;
+        else test1 = b.getFilm().matches(filmValidate);
+
+        boolean test2 = (b.getAntall()+"").matches(antallValidate);
+        boolean test3 = b.getFornavn().matches(fnavnValidate);
+        boolean test4 = b.getEtternavn().matches(enavnValidate);
+        boolean test5 = b.getTelefon().matches(tlfValidate);
+        boolean test6 = b.getEpost().matches(epostValidate);
+
+        return test1 && test2 && test3 && test4 && test5 && test6;
+    }
+
     @GetMapping("/hentAlleFilmer")
     public List<Film> hentAlleFilmer(HttpServletResponse response) throws IOException {
         List<Film> filmer = rep.hentAlleFilmer();
@@ -35,8 +58,12 @@ public class KinoController {
 
     @PostMapping("/leggTilBestilling")
     public void leggTilBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
-        if (rep.lagreBestilling(kinoBestilling) == -1) {
-            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
+        if (validerBestilling(kinoBestilling)) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i Validering - prøv igjen senere");
+        } else {
+            if (rep.lagreBestilling(kinoBestilling) == -1) {
+                response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
+            }
         }
     }
 
@@ -71,7 +98,6 @@ public class KinoController {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
         return bestillinger;
-
     }
 
     @DeleteMapping("/slettAlleBestillinger")
@@ -80,5 +106,4 @@ public class KinoController {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
     }
-
 }
