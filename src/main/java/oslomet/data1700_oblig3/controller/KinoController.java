@@ -58,7 +58,7 @@ public class KinoController {
 
     @PostMapping("/leggTilBestilling")
     public void leggTilBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
-        if (validerBestilling(kinoBestilling)) {
+        if (!validerBestilling(kinoBestilling)) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i Validering - prøv igjen senere");
         } else {
             if (rep.lagreBestilling(kinoBestilling) == -1) {
