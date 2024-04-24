@@ -133,10 +133,14 @@ $(function() {
             epost : epost.val()
         };
 
-        //Send javaobjekt for endring paa server og skriv ut paa klient
-        $.post("/endreBestilling", bestilling, function () {
+        //Send json-objekt for endring paa server DB og skriv ut paa klient
+        $.ajax({
+            type: "PUT",
+            url: "/endreBestilling",
+            contentType: "application/json",
+            data: JSON.stringify(bestilling),
+        }).done(function() {
             skrivAlleBestillinger();
-
         }).fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             utskrift.html(json.message);

@@ -25,7 +25,6 @@ public class KinoController {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
         return filmer;
-
     }
 
     @PostMapping("/leggTilBestilling")
@@ -44,9 +43,8 @@ public class KinoController {
         return kinoBestilling;
     }
 
-    //TODO: ENDRE TIL PUTMAPPING?
-    @PostMapping("/endreBestilling")
-    public void endreBestilling(Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
+    @PutMapping("/endreBestilling")
+    public void endreBestilling(@RequestBody Bestilling kinoBestilling, HttpServletResponse response) throws IOException {
         if (rep.endreBestilling(kinoBestilling) == -1) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
