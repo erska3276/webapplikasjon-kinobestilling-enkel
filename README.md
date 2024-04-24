@@ -23,11 +23,11 @@ Utvidet web-funksjonalitet (Server/tjener og kontroller i mvc-modellen):
 Bruker Spring Boot og Java for å lagre data på webserver i stedet med ArrayList. Klient kan altså nå
 både sende/lagre og hente bestillingsdata fra server/tjener. Film-valgalternativer er også
 nå lagret og hentet fra server/tjener. Start webserver i Intellij og se i browser på url:
-localhost:8080
+**localhost:8080**
 
 Utvidet server-funksonalitet (Database)
 -------------------------------------------------------------------
 Data lagres nå i en database(h2 memory) ved kjøring av Tomcat webserveren vår via Spring boot. Enkeltrader
 kan nå både endres og fjernes via **Endre** og **Fjern** knappene i radene i tabellen.
-Tilgang til h2-databasen kan gjøres via browser url: localhost:8080/h2-console. Innlogging informasjon
-står i "application.properties" filen
+Tilgang til h2-databasen kan gjøres via browser url: **localhost:8080/h2-console**. Innlogging informasjon
+står i **application.properties** filen
