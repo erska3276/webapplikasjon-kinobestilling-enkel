@@ -1,4 +1,4 @@
--- Database H2(in memory) and tables represents the model part of
+-- Database H2(in memory) and tables represents the Model part of
 -- our MVC-architecture:
 CREATE TABLE IF NOT EXISTS Film
 (

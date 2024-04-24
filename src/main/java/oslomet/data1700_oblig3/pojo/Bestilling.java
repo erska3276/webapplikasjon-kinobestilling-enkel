@@ -1,9 +1,11 @@
 package oslomet.data1700_oblig3.pojo;
 
 /* POJO (Plain Old Java Object) klasse for bruk ved overføring av data
-*  mellom klient og tjener/server. Spring håndterer konverteringen dersom
-*  samme attributt-navn på java-objekt som variabelnavn i javascript-objektet.
-* */
+ * mellom klient og tjener/server. Har da attributter, tom-konstruktor,
+ * konstruktor som setter alle attributter, og get/set-metoder for alle
+ * attributtene. Spring håndterer konverteringen dersom samme attributtnavn
+ * på java-objekt som attributtnavn i javascript-objektet fra klient.
+ * */
 public class Bestilling {
 
     private long id;

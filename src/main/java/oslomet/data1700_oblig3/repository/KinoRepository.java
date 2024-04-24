@@ -13,13 +13,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/* Repository klasse som inneholder metoder for å jobbe mot databasen for
+ * "domene"-modellen Bestilling(POJO) og Film(POJO).
+ * */
 @Repository
 public class KinoRepository {
 
     @Autowired
-    private JdbcTemplate db;
+    private JdbcTemplate db;    //aksess til database
     final private Logger logger = LoggerFactory.getLogger(KinoRepository.class);
 
+    /* Hjelpeklasse for aa oversette Bestilling-tabell i DB til java-objekt
+     * "Bestilling". Mapper da kolonner i rader til Bestilling-tabell til
+     * attributter i Bestilling java-objekt.
+     * */
     class BestillingRowMapper implements RowMapper<Bestilling> {
 
         @Override
@@ -37,6 +44,10 @@ public class KinoRepository {
         }
     }
 
+    /* Hjelpeklasse for aa oversette Film-tabell i DB til java-objekt
+     * "Film". Mapper da kolonner i rader til Film-tabell til
+     * attributter i Film java-objekt.
+     * */
     class FilmRowMapper implements RowMapper<Film> {
 
         @Override
@@ -49,6 +60,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer 0 eller 1 ved vanlig eksekvering, -1 ved feil
     public int lagreBestilling(Bestilling b) {
         String sql = "INSERT INTO BESTILLING (film, antall, fornavn, " +
                 "etternavn, telefon, epost) VALUES (?, ?, ?, ?, ?, ?)";
@@ -62,7 +74,7 @@ public class KinoRepository {
         }
     }
 
-
+    //Returnerer Bestilling-objekt ved vanlig eksekvering, null ved feil
     public Bestilling hentBestilling(Long id) {
         String sql = "SELECT * FROM BESTILLING WHERE ID = ?";
 
@@ -74,6 +86,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer 0 eller 1 ved vanlig eksekvering, -1 ved feil
     public int endreBestilling(Bestilling b) {
         String sql = "UPDATE BESTILLING SET film=?, antall=?, fornavn=?,"
                 + " etternavn=?, telefon=?, epost=? WHERE id=?";
@@ -87,6 +100,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer 0 eller 1 ved vanlig eksekvering, -1 ved feil
     public int slettBestilling(Long id) {
         String sql = "DELETE FROM BESTILLING WHERE ID = ?";
 
@@ -98,6 +112,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer Bestillings-liste ved vanlig eksekvering, null ved feil
     public List<Bestilling> hentAlleBestillinger() {
         String sql = "SELECT * FROM BESTILLING ORDER BY ETTERNAVN, FORNAVN";
 
@@ -110,6 +125,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer 0 eller 1 ved vanlig eksekvering, -1 ved feil
     public int slettAlleBestillinger() {
         String sql = "DELETE FROM BESTILLING";
 
@@ -121,6 +137,7 @@ public class KinoRepository {
         }
     }
 
+    //Returnerer Film-liste ved vanlig eksekvering, null ved feil
     public List<Film> hentAlleFilmer() {
         String sql = "SELECT * FROM FILM ORDER BY TITTEL";
 

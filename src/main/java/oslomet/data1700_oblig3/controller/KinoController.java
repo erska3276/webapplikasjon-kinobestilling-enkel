@@ -11,6 +11,13 @@ import oslomet.data1700_oblig3.repository.KinoRepository;
 import java.io.IOException;
 import java.util.List;
 
+/* Denne klassen representerer kontroller paa server i vaar MVC-arkitektur
+ * og har ansvar for aa kommunisere med klienten (view = .html og .js).
+ * Klienten faar da tak i server via denne klassens metoder som har
+ * dekoratorer "Get-, Post-, Put-, og DeleteMapping" og deres "/endepunkt"
+ * til server url. Retur av java-objekt tilbake til klient handteres av
+ * Spring som konverterer om til et JSON-objekt.
+ * */
 @RestController
 public class KinoController {
 
@@ -20,7 +27,6 @@ public class KinoController {
     @GetMapping("/hentAlleFilmer")
     public List<Film> hentAlleFilmer(HttpServletResponse response) throws IOException {
         List<Film> filmer = rep.hentAlleFilmer();
-
         if (filmer == null) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }

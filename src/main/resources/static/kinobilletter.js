@@ -17,8 +17,7 @@ $(function() {
 
     /* Event. Trykk paa #kjopKnapp tar all informasjon fra input-feltene i
     * #kinoForm og prover aa legge inn en ny bestilling til DB paa server, og
-    * skriver ut resultatet hos klient. Ved feil skrives feilmelding fra
-    * server i stedet.
+    * skriver ut resultatet hos klient.
     * */
     $("#kjopKnapp").click(function() {
 
@@ -44,7 +43,6 @@ $(function() {
             return false;
         }
 
-        //Lag bestillings-objekt og legg i liste
         const bestilling = {
             film : film.val(),
             antall : antall.val(),
@@ -54,7 +52,9 @@ $(function() {
             epost : epost.val()
         };
 
-        //Send javaobjekt til lagring paa server og skriv ut paa klient
+        /* Koble til server endpoint via et simplifisert ajax-kall.
+        * Send javaobjekt til lagring paa server og skriv ut paa klient.
+        * Ved feil skrives feilmelding fra server i stedet */
         $.post("/leggTilBestilling", bestilling, function () {
             skrivAlleBestillinger();
 
@@ -69,14 +69,14 @@ $(function() {
     });
 
     /* Event. Trykk paa #slettKnapp sletter alle bestillinger i DB paa server
-    * og fjerner utskrift hos klient. Ved feil skrives feilmelding fra
-    * server i stedet.
+    * og fjerner utskrift hos klient.
     * */
     $("#slettKnapp").click(function() {
         //Fjerner feilmeldinger til input
         $("span").remove(".validate-error");
 
-        //Tømmer bestillings-listen ved tomme Bestilling-Table paa server DB
+        /* Koble til server endpoint via et ajax-kall. Ved feil
+        * skrives feilmelding fra server i stedet */
         $.ajax({
             type: "DELETE",
             url: "/slettAlleBestillinger",
@@ -122,7 +122,6 @@ $(function() {
             return false;
         }
 
-        //Lag bestillings-objekt og legg i liste
         const bestilling = {
             id : id,
             film : film.val(),
@@ -133,7 +132,8 @@ $(function() {
             epost : epost.val()
         };
 
-        //Send json-objekt for endring paa server DB og skriv ut paa klient
+        /* Koble til server endpoint via et ajax-kall. Ved feil
+        * skrives feilmelding fra server i stedet */
         $.ajax({
             type: "PUT",
             url: "/endreBestilling",
@@ -161,6 +161,8 @@ $(function() {
         let rowId = $(this).closest("tr").attr("id");
         let id = rowId.split("-")[1];
 
+        /* Koble til server endpoint via et ajax-kall. Ved feil
+        * skrives feilmelding fra server i stedet */
         $.ajax({
             type: "DELETE",
             url: "/slettBestilling?id=" + id,
@@ -172,11 +174,13 @@ $(function() {
         });
     });
 
-    /* Henter liste over alle bestillinger fra DB paa server, oppretter et
-    * <table>-element, og skriver ut hos klient. Ved feil skrives
-    * feilmelding fra server i stedet.
+    /* Henter liste over alle bestillinger fra DB paa server. Oppretter et
+    * <table>-element, og skriver ut hos klient.
     * */
     function skrivAlleBestillinger() {
+        /* Koble til server endpoint via et simplifisert ajax-kall.
+        * Ved feil skrives feilmelding fra server i stedet
+        * */
         $.get("/hentAlleBestillinger", function(bData) {
             let ut = "<table id='table-result' class='table table-striped'><tr>";
             ut += "<th>Film</th><th>Antall</th><th>Fornavn</th>";
@@ -201,10 +205,12 @@ $(function() {
     }
 
     /* Henter en film-liste fra DB paa server og oppretter et
-    * <select>-element i #filmliste. Ved feil skrives feilmelding fra
-    * server i stedet.
+    * <select>-element i #filmliste.
     * */
     function hentAlleFilmer() {
+        /* Koble til server endpoint via et simplifisert ajax-kall.
+        * Ved feil skrives feilmelding fra server i stedet
+        * */
         $.get("/hentAlleFilmer", function(fData) {
             let ut = "<label for='film' class='me-2'>Velg film:</label>";
             ut += "<select id='film'>";
@@ -224,7 +230,7 @@ $(function() {
 
     /* Sjekker om input i et objekt er riktig i forhold til en regular
     * expression. Hvis ikke legger vi inn en <span class="validate-error"> bak
-    * med feilmelding.
+    * "objekt" med feilmelding.
     * */
     function inputValidering(objekt, regEx, feilmelding) {
         if (objekt.val() === null || !regEx.test(objekt.val())) {
