@@ -32,4 +32,4 @@ kan nå både endres og fjernes via **Endre** og **Fjern** knappene i radene i t
 Tilgang til h2-databasen kan gjøres via browser url: **localhost:8080/h2-console**. Innlogging informasjon
 står i **application.properties** filen
 
-**Video av kjoring:*** https://www.youtube.com/watch?v=SbnXVFcDRtE
+**Video av kjoring:** https://www.youtube.com/watch?v=SbnXVFcDRtE
