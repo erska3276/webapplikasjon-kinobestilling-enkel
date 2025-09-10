@@ -1,13 +1,4 @@
-# data1700-oblig3
-=================
-
-Oslomet brukernavn: erska3276
-
-Github brukernavn: erska3276
-
-Github-repo URL: https://github.com/erska3276/data1700-oblig3
-
-Fullt navn: Erik Skålhegg
+> Originalt en oblig i kurs om webapplikasjoner
 
 Kort beskrivelse av applikasjonen (5-10 setninger):
 -------------------------------------------------------------
